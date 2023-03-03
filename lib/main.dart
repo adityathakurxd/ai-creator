@@ -1,6 +1,5 @@
-import 'package:ai_creator/home/home_screen.dart';
+import 'package:ai_creator/screens/home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:appwrite/appwrite.dart';
 
 void main() {
   // Client client = Client();
@@ -20,13 +19,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'AI Creator Suite',
-      theme: ThemeData(
-        useMaterial3: true,
-        primarySwatch: Colors.blue,
-      ),
-      debugShowMaterialGrid: false,
-      home: const HomeScreen(),
-    );
+        title: 'AI Creator Suite',
+        theme: ThemeData(
+          useMaterial3: true,
+          primarySwatch: Colors.blue,
+        ),
+        debugShowMaterialGrid: false,
+        home: HomeScreen());
   }
 }
