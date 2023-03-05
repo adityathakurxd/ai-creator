@@ -1,14 +1,13 @@
+import 'package:ai_creator/firebase_options.dart';
 import 'package:ai_creator/screens/home_screen.dart';
+import 'package:ai_creator/screens/script_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  // Client client = Client();
-  // client
-  //     .setEndpoint('https://cloud.appwrite.io/v1')
-  //     .setProject('ai-creator')
-  //     .setSelfSigned(
-  //         status:
-  //             true); // For self signed certificates, only use for development
+void main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -25,6 +24,6 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         debugShowMaterialGrid: false,
-        home: HomeScreen());
+        home: const HomeScreen());
   }
 }

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "654882640332",
+    "project_id": "ai-creator-suite",
+    "storage_bucket": "ai-creator-suite.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:654882640332:android:7ee98a49fed90634d54d69",
+        "android_client_info": {
+          "package_name": "com.example.ai_creator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "654882640332-if2o12upgvmeg77o0etjg4fske36bhcu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7IyQ4ge20DAL5FvjrgpykzqYgVPNSOIY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "654882640332-if2o12upgvmeg77o0etjg4fske36bhcu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

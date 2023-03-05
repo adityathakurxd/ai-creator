@@ -1,38 +1,39 @@
 // To parse this JSON data, do
 //
-//     final gptData = gptDataFromJson(jsonString);
+//     final chatGptModel = chatGptModelFromJson(jsonString);
 
 import 'dart:convert';
 
-GptData gptDataFromJson(String str) => GptData.fromJson(json.decode(str));
+ChatGptModel chatGptModelFromJson(String str) =>
+    ChatGptModel.fromJson(json.decode(str));
 
-String gptDataToJson(GptData data) => json.encode(data.toJson());
+String chatGptModelToJson(ChatGptModel data) => json.encode(data.toJson());
 
-class GptData {
-  GptData({
+class ChatGptModel {
+  ChatGptModel({
     required this.id,
     required this.object,
     required this.created,
     required this.model,
-    required this.choices,
     required this.usage,
+    required this.choices,
   });
 
   String id;
   String object;
   int created;
   String model;
-  List<Choice> choices;
   Usage usage;
+  List<Choice> choices;
 
-  factory GptData.fromJson(Map<String, dynamic> json) => GptData(
+  factory ChatGptModel.fromJson(Map<String, dynamic> json) => ChatGptModel(
         id: json["id"],
         object: json["object"],
         created: json["created"],
         model: json["model"],
+        usage: Usage.fromJson(json["usage"]),
         choices:
             List<Choice>.from(json["choices"].map((x) => Choice.fromJson(x))),
-        usage: Usage.fromJson(json["usage"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -40,36 +41,52 @@ class GptData {
         "object": object,
         "created": created,
         "model": model,
-        "choices": List<dynamic>.from(choices.map((x) => x.toJson())),
         "usage": usage.toJson(),
+        "choices": List<dynamic>.from(choices.map((x) => x.toJson())),
       };
 }
 
 class Choice {
   Choice({
-    required this.text,
-    required this.index,
-    this.logprobs,
+    required this.message,
     required this.finishReason,
+    required this.index,
   });
 
-  String text;
-  int index;
-  dynamic logprobs;
+  Message message;
   String finishReason;
+  int index;
 
   factory Choice.fromJson(Map<String, dynamic> json) => Choice(
-        text: json["text"],
-        index: json["index"],
-        logprobs: json["logprobs"],
+        message: Message.fromJson(json["message"]),
         finishReason: json["finish_reason"],
+        index: json["index"],
       );
 
   Map<String, dynamic> toJson() => {
-        "text": text,
-        "index": index,
-        "logprobs": logprobs,
+        "message": message.toJson(),
         "finish_reason": finishReason,
+        "index": index,
+      };
+}
+
+class Message {
+  Message({
+    required this.role,
+    required this.content,
+  });
+
+  String role;
+  String content;
+
+  factory Message.fromJson(Map<String, dynamic> json) => Message(
+        role: json["role"],
+        content: json["content"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "role": role,
+        "content": content,
       };
 }
 
