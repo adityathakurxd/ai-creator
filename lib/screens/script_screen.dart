@@ -40,7 +40,10 @@ class _ScriptScreenState extends State<ScriptScreen> {
                   width: 500,
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
-                    child: SelectableText(widget.reponseKeywords),
+                    child: SelectableText(
+                      widget.reponseKeywords,
+                      style: const TextStyle(color: Colors.black),
+                    ),
                   ),
                 ),
               ),
@@ -82,7 +85,7 @@ class _ScriptScreenState extends State<ScriptScreen> {
                         };
 
                         String promptData =
-                            "Generate a youtube storyboard image for the the topic ${_controller.value.text}. Make it as realistic as possible";
+                            "Generate a tiktok storyboard image for the the topic ${_controller.value.text}. Make it as realistic as possible";
 
                         print(promptData);
                         final data = jsonEncode({

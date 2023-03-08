@@ -1,6 +1,5 @@
 import 'package:ai_creator/firebase_options.dart';
 import 'package:ai_creator/screens/home_screen.dart';
-import 'package:ai_creator/screens/script_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -19,11 +18,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'AI Creator Suite',
-        theme: ThemeData(
+        theme: ThemeData.dark(
           useMaterial3: true,
-          primarySwatch: Colors.blue,
         ),
-        debugShowMaterialGrid: false,
+        debugShowCheckedModeBanner: false,
         home: const HomeScreen());
   }
 }

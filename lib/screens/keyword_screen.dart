@@ -37,7 +37,8 @@ class _KeywordScreenState extends State<KeywordScreen> {
                       width: 500,
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
-                        child: SelectableText(widget.reponseKeywords),
+                        child: SelectableText(widget.reponseKeywords,
+                            style: const TextStyle(color: Colors.black)),
                       ),
                     ),
                   ),
@@ -50,7 +51,8 @@ class _KeywordScreenState extends State<KeywordScreen> {
                         controller: _controller,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
-                          hintText: 'Enter a topic to generate a script',
+                          hintText:
+                              'Paste a topic from above to generate a script',
                         ),
                       ),
                     ),
@@ -70,7 +72,7 @@ class _KeywordScreenState extends State<KeywordScreen> {
                         };
 
                         String promptData =
-                            "Generate a youtube video script for the the topic ${_controller.value.text}. Iclude scene information if possible";
+                            "Generate a tiktok video script for the the topic ${_controller.value.text}. Make it short and sweet.";
 
                         print(promptData);
                         final data = jsonEncode({

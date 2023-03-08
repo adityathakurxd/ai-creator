@@ -19,18 +19,54 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: false,
-        title: const Text("Creator Suite"),
+        title: const Text("AI Creator"),
       ),
       body: Column(
         children: [
+          Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20.0),
+                child: Text(
+                  "At loss for ideas?",
+                  style: Theme.of(context).textTheme.headlineLarge,
+                ),
+              )),
+          Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20.0),
+                child: Text(
+                  "Let AI recommend you Reels and TikTok topics!",
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+              )),
+          const SizedBox(
+            height: 20,
+          ),
           const Align(
               alignment: Alignment.topLeft,
               child: Padding(
                 padding: EdgeInsets.only(left: 20.0),
-                child: Text("Start by entering a topic on your mind 🤯"),
+                child: Text("Pick a category to generate ideas 🤩"),
+              )),
+          const SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: 40,
+              child: TopicSuggestions()),
+          const SizedBox(
+            height: 20,
+          ),
+          const Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: EdgeInsets.only(left: 20.0),
+                child: Text("Or, start by entering a keyword on your mind 🤯"),
               )),
           Center(
             child: Padding(
@@ -81,6 +117,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (response.statusCode == 200) {
                   print(response.body);
                   final gptData = chatGptModelFromJson(response.body);
+                  setState(() {
+                    isLoading = false;
+                  });
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => KeywordScreen(
                           reponseKeywords:
@@ -94,7 +133,8 @@ class _HomeScreenState extends State<HomeScreen> {
             child: SizedBox(
               width: 120,
               child: isLoading
-                  ? const CircularProgressIndicator()
+                  ? const SizedBox(
+                      height: 10, width: 10, child: CircularProgressIndicator())
                   : Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
@@ -111,12 +151,90 @@ class _HomeScreenState extends State<HomeScreen> {
           const SizedBox(
             height: 40,
           ),
-          const Image(
-              width: 600,
-              height: 400,
-              image: AssetImage("assets/images/home.png")),
+          // const Image(
+          //     width: 600,
+          //     height: 400,
+          //     image: AssetImage("assets/images/home.png")),
         ],
       ),
+    );
+  }
+}
+
+class TopicSuggestions extends StatelessWidget {
+  TopicSuggestions({super.key});
+
+  final List<String> topics = [
+    "💼 Business",
+    "💰 Finance",
+    "🩺 Health",
+    "🍕 Food"
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: topics.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.only(left: 10.0, top: 5, bottom: 5),
+              child: ElevatedButton(
+                child: Text(topics[index]),
+                onPressed: () async {
+                  var snackBar = SnackBar(
+                    content: Row(
+                      children: const [
+                        Text('Generating topics! This should take some time'),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        SizedBox(
+                            height: 10,
+                            width: 10,
+                            child: CircularProgressIndicator()),
+                      ],
+                    ),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  var url =
+                      Uri.parse('https://api.openai.com/v1/chat/completions');
+
+                  Map<String, String> headers = {
+                    'Content-Type': 'application/json;charset=UTF-8',
+                    'Charset': 'utf-8',
+                    'Authorization': 'Bearer $apiKey'
+                  };
+
+                  String promptData =
+                      "only generate a list of youtube ideas for keyword ${topics[index]}.";
+
+                  print(promptData);
+                  final data = jsonEncode({
+                    "model": "gpt-3.5-turbo",
+                    "messages": [
+                      {"role": "user", "content": promptData}
+                    ],
+                  });
+                  var response =
+                      await http.post(url, headers: headers, body: data);
+
+                  if (response.statusCode == 200) {
+                    print(response.body);
+                    final gptData = chatGptModelFromJson(response.body);
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => KeywordScreen(
+                            reponseKeywords:
+                                gptData.choices[0].message.content)));
+                  } else {
+                    print(response.body);
+                    print(response.statusCode);
+                  }
+                },
+              ),
+            );
+          }),
     );
   }
 }
